@@ -97,15 +97,56 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        # set light on to enter loop
+        self.set_light_on()
+
+        # if light is on, there was a swap and list needs to be iterated through again
+        while self.light_is_on():
+
+            # pick up item that it will be comparing, set light to off so light will only be on if there is a swap
+            self.swap_item()
+            self.set_light_off()
+
+            # loop to make robot move through entire list
+            while self.can_move_right():
+                self.move_right()
+
+                # compare item robot picked up and next item in list, it next item is greater
+                # swap, move left, swap to place lesser item and pick up none, then move right again and pick up
+                # item that it will now compared in the next loop
+                if self.compare_item() == 1:
+                    self.set_light_on()
+                    self.swap_item()
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
+                    self.swap_item()
+
+                # If items are already in order, move back to the left and deposit item, then move right and pick up
+                # item that will be compared in next loop
+                else:
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
+                    self.swap_item()
+
+            # swaps when in last position to make sure robot is holding none
+            self.swap_item()
+
+            # returns to starting position
+            while self.can_move_left():
+                self.move_left()
+
+
 
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
-
+    #l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    l = [20, 77, 45, 16, 15, 91, 12, 6, 24, 89, 53, 19, 85, 56, 13, 74, 48, 98, 9, 92, 25, 35, 54, 44, 50, 5, 75, 34, 2, 42, 87, 49, 76, 52, 43, 23, 7, 80, 66, 14, 46, 90, 88, 40, 97, 10, 57, 63, 1, 18, 67, 79, 96, 27, 73, 28, 32, 61, 30, 8, 17, 93, 26, 51, 60, 55, 62, 31, 47, 64, 39, 22, 99, 95, 83, 70, 38, 69, 36, 41, 37, 65, 84, 3, 29, 58, 0, 94, 4, 11, 33, 86, 21, 81, 72, 82, 59, 71, 68, 78]
+    print(len(l))
     robot = SortingRobot(l)
 
     robot.sort()
